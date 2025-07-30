@@ -1,4 +1,3 @@
-// Grab elements
 const cloud    = document.getElementById('cloud');
 const cloudTxt = document.getElementById('cloud-text');
 const overlay  = document.getElementById('overlay');
@@ -11,17 +10,15 @@ const gifts    = [
 ];
 const bgMusic  = document.getElementById('bg-music');
 const fwMusic  = document.getElementById('fw-music');
-
 let stage = 0;
 
-// Change monkey GIF helper
+// Always encode URI when switching files
 function setMonkey(filename) {
-  monkey.src = `assets/${filename}`;
+  monkey.src = encodeURI(`assets/${filename}`);
 }
 
-// Start on first tap
 cloud.addEventListener('click', () => {
-  if (stage !== 0) return;
+  if (stage) return;
   stage = 1;
   bgMusic.play();
   overlay.style.opacity = '0';
@@ -37,13 +34,11 @@ function cutCake() {
   cake.style.opacity   = '0';
   setMonkey('happy birthday monkey.gif');
   cloudTxt.textContent = 'Happy birthday Bandar';
-  bgMusic.pause();
-  fwMusic.play();
+  bgMusic.pause(); fwMusic.play();
   overlay.style.background = 'rgba(255,200,0,0.6)';
 
   setTimeout(() => {
-    fwMusic.pause();
-    bgMusic.play();
+    fwMusic.pause(); bgMusic.play();
     overlay.style.background = 'rgba(255,255,255,0.4)';
     setMonkey('oh its your birthday monkey.gif');
     cloudTxt.textContent = 'Open the gifts one by one';
@@ -59,17 +54,16 @@ function showGifts() {
 }
 
 function openGift(el, idx) {
-  const contentFiles = [
+  const files = [
     'pizza.jpeg',
     'iphone.jpeg',
     'clideo_editor_9ec816ebdeae407fab2813a60c3f1251.mp4'
   ];
 
   if (idx === 2) {
-    // for the video gift
     el.play();
   } else {
-    el.src = `assets/${contentFiles[idx]}`;
+    el.src = encodeURI(`assets/${files[idx]}`);
   }
 
   el.classList.add('opened');
@@ -93,21 +87,15 @@ function resetAll() {
   cake.style.transform = 'translateX(-50%) scale(1)';
   cake.style.opacity   = '0';
   document.getElementById('gifts-container').style.opacity = '0';
-
   gifts.forEach((g, i) => {
-    if (i === 2) {
-      g.pause();
-      g.currentTime = 0;
-    } else {
-      g.src = 'assets/real gift.gif';
-    }
+    if (i === 2) { g.pause(); g.currentTime = 0; }
+    else        { g.src = encodeURI('assets/real gift.gif'); }
     g.classList.remove('opened');
   });
-
   setMonkey('oh its your birthday monkey.gif');
   cloudTxt.textContent = 'Tap to Start';
-  bgMusic.currentTime = 0;
-  fwMusic.currentTime = 0;
+  bgMusic.currentTime = 0; fwMusic.currentTime = 0;
   bgMusic.play();
   stage = 0;
 }
+
