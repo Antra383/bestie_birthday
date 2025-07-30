@@ -1,83 +1,76 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Birthday Surprise</title>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
+    * { margin:0; padding:0; box-sizing:border-box }
     body, html {
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
+      width:100%; height:100%;
+      overflow:hidden;
       font-family: 'Comic Sans MS', cursive, sans-serif;
+      position:relative;
     }
-
-    .background {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      background: url('download (3).jpeg') no-repeat center center/cover;
-      z-index: 0;
-      filter: brightness(0.8);
+    /* Full‑screen background, slightly dimmed */
+    #bg {
+      position:absolute; top:0; left:0;
+      width:100%; height:100%;
+      background:url('download (3).jpeg') center/cover no-repeat;
+      filter: brightness(0.6);
+      z-index:1;
     }
-
-    .monkey {
-      position: absolute;
-      bottom: 10px;
-      right: 10px;
-      width: 150px;
-      z-index: 2;
+    /* Monkey centered near top */
+    #monkey {
+      position:absolute;
+      top:12%; left:50%;
+      transform: translateX(-50%);
+      width: 250px;
+      z-index:2;
     }
-
-    .message-box {
-      position: absolute;
-      top: 50%;
-      left: 50%;
+    /* Cloud message box */
+    #cloud {
+      position:absolute;
+      top:55%; left:50%;
       transform: translate(-50%, -50%);
-      background: rgba(255, 255, 200, 0.9);
+      background: rgba(255,255,240,0.95);
       border: 3px solid orange;
       border-radius: 30px;
-      padding: 30px 60px;
-      font-size: 2rem;
-      color: #ff8c00;
+      padding: 20px 40px;
+      text-align: center;
       cursor: pointer;
-      z-index: 3;
+      z-index:3;
       animation: floaty 2s ease-in-out infinite;
-      box-shadow: 0 0 20px #ffa500;
     }
-
+    #cloud p {
+      font-size: 1.6rem;
+      color: #fff79a;              /* pastel yellow */
+      -webkit-text-stroke: 1px orange;
+      text-shadow: 1px 1px 2px #000;
+    }
     @keyframes floaty {
-      0%, 100% { transform: translate(-50%, -52%); }
-      50% { transform: translate(-50%, -48%); }
+      0%,100% { transform: translate(-50%,-52%); }
+      50%    { transform: translate(-50%,-48%); }
     }
   </style>
 </head>
 <body>
 
-  <div class="background"></div>
+  <div id="bg"></div>
 
-  <img src="oh its your birthday monkey.gif" alt="Monkey" class="monkey">
+  <img id="monkey" src="oh its your birthday monkey.gif" alt="Monkey">
 
-  <div class="message-box" onclick="startExperience()">
-    Tap to Start
+  <div id="cloud" onclick="start()">
+    <p>Tap to Start</p>
   </div>
 
-  <audio id="bgMusic" src="happy-birthday-song-birthday-party-birthday-dj-songs-dj-remix-songs-dj-vr7-king_dFwrwEY7.mp3"></audio>
+  <audio id="bgm" src="happy-birthday-song-birthday-party-birthday-dj-songs-dj-remix-songs-dj-vr7-king_dFwrwEY7.mp3" loop></audio>
 
   <script>
-    function startExperience() {
-      const music = document.getElementById("bgMusic");
-      music.play();
-
-      document.querySelector(".message-box").style.display = "none";
-
-      // You can add the next step trigger here later
-      alert("Let’s move to Step 2 🧁🎊 (you'll code that soon!)");
+    function start() {
+      document.getElementById('bgm').play();
+      document.getElementById('cloud').style.pointerEvents = 'none';
+      document.getElementById('cloud').querySelector('p').textContent = "Oh, it's your birthday Anand";
     }
   </script>
 
