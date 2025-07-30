@@ -1,57 +1,51 @@
-// script.js
-const cloud     = document.getElementById('cloud');
-const cloudTxt  = document.getElementById('cloud-text');
-const overlay   = document.getElementById('overlay');
-const monkey    = document.getElementById('monkey');
-const cake      = document.getElementById('cake');
-const gifts     = Array.from(document.querySelectorAll('.gift'));
-const bgMusic   = document.getElementById('bg-music');
-const fwMusic   = document.getElementById('firework-music');
+// Grab elements
+const cloud    = document.getElementById('cloud');
+const cloudTxt = document.getElementById('cloud-text');
+const overlay  = document.getElementById('overlay');
+const monkey   = document.getElementById('monkey');
+const cake     = document.getElementById('cake');
+const gifts    = [
+  document.getElementById('gift-1'),
+  document.getElementById('gift-2'),
+  document.getElementById('gift-3')
+];
+const bgMusic  = document.getElementById('bg-music');
+const fwMusic  = document.getElementById('fw-music');
 
 let stage = 0;
 
-// Helper to switch monkey GIF
-function setMonkey(src) {
-  monkey.src = `assets/${src}`;
+// Change monkey GIF helper
+function setMonkey(filename) {
+  monkey.src = `assets/${filename}`;
 }
 
-// Kick off everything
-cloud.addEventListener('click', async () => {
+// Start on first tap
+cloud.addEventListener('click', () => {
   if (stage !== 0) return;
   stage = 1;
   bgMusic.play();
-  // fade overlay + idle → pre‑cake
   overlay.style.opacity = '0';
   setMonkey('monkey candle blowing.gif');
   cloudTxt.textContent = 'Cut the Cake';
-  
-  // show cake
-  setTimeout(() => {
-    cake.style.opacity = '1';
-  }, 200); 
-
-  // Next: cake click
-  cake.addEventListener('click', cakeCut, { once: true });
+  setTimeout(() => cake.style.opacity = '1', 200);
+  cake.addEventListener('click', cutCake, { once: true });
 });
 
-function cakeCut() {
+function cutCake() {
   stage = 2;
-  // scale up & vanish
   cake.style.transform = 'translateX(-50%) scale(5)';
   cake.style.opacity   = '0';
   setMonkey('happy birthday monkey.gif');
-  cloudTxt.textContent = 'Happy Birthday Bandar';
+  cloudTxt.textContent = 'Happy birthday Bandar';
   bgMusic.pause();
   fwMusic.play();
-  // firecracker effect via quick CSS flashes
-  overlay.style.background = 'rgba(255, 200, 0, 0.6)';
-  
+  overlay.style.background = 'rgba(255,200,0,0.6)';
+
   setTimeout(() => {
-    // back to normal
     fwMusic.pause();
     bgMusic.play();
-    setMonkey('oh its your birthday monkey.gif');
     overlay.style.background = 'rgba(255,255,255,0.4)';
+    setMonkey('oh its your birthday monkey.gif');
     cloudTxt.textContent = 'Open the gifts one by one';
     showGifts();
   }, 10000);
@@ -59,40 +53,57 @@ function cakeCut() {
 
 function showGifts() {
   document.getElementById('gifts-container').style.opacity = '1';
-  gifts.forEach((g,i) => {
+  gifts.forEach((g, i) => {
     g.addEventListener('click', () => openGift(g, i), { once: true });
   });
 }
 
-function openGift(giftEl, idx) {
-  let names = ['pizza.jpeg','iphone.jpeg','clideo_editor_9ec816ebdeae407fab2813a60c3f1251.mp4'];
-  giftEl.src      = `assets/${names[idx]}`;
-  giftEl.classList.add('opened');
-  setMonkey('monkey candle blowing.gif'); // you can swap custom per-step too
-  let left = gifts.filter(g=>!g.classList.contains('opened')).length;
-  if (left) {
-    cloudTxt.textContent = `Yay! ${left} to go!`;
+function openGift(el, idx) {
+  const contentFiles = [
+    'pizza.jpeg',
+    'iphone.jpeg',
+    'clideo_editor_9ec816ebdeae407fab2813a60c3f1251.mp4'
+  ];
+
+  if (idx === 2) {
+    // for the video gift
+    el.play();
   } else {
-    finalThanks();
+    el.src = `assets/${contentFiles[idx]}`;
+  }
+
+  el.classList.add('opened');
+  setMonkey('thanks for watching monkey.gif');
+
+  const remaining = gifts.filter(g => !g.classList.contains('opened')).length;
+  if (remaining) {
+    cloudTxt.textContent = `Yay! ${remaining} to go!`;
+  } else {
+    finalize();
   }
 }
 
-function finalThanks() {
-  setMonkey('thanks for watching monkey.gif');
-  cloudTxt.textContent = 'Thank you, see you next year!';
+function finalize() {
+  cloudTxt.textContent = 'Thank you, see you next year';
   setTimeout(resetAll, 1500);
 }
 
 function resetAll() {
-  // reset visuals
   overlay.style.opacity = '1';
   cake.style.transform = 'translateX(-50%) scale(1)';
   cake.style.opacity   = '0';
   document.getElementById('gifts-container').style.opacity = '0';
-  gifts.forEach(g=> {
-    g.src = 'assets/real gift.gif';
+
+  gifts.forEach((g, i) => {
+    if (i === 2) {
+      g.pause();
+      g.currentTime = 0;
+    } else {
+      g.src = 'assets/real gift.gif';
+    }
     g.classList.remove('opened');
   });
+
   setMonkey('oh its your birthday monkey.gif');
   cloudTxt.textContent = 'Tap to Start';
   bgMusic.currentTime = 0;
