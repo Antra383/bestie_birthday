@@ -1,28 +1,85 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Happy Birthday!</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <title>Birthday Surprise</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body, html {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+    }
+
+    .background {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: url('download (3).jpeg') no-repeat center center/cover;
+      z-index: 0;
+      filter: brightness(0.8);
+    }
+
+    .monkey {
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+      width: 150px;
+      z-index: 2;
+    }
+
+    .message-box {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(255, 255, 200, 0.9);
+      border: 3px solid orange;
+      border-radius: 30px;
+      padding: 30px 60px;
+      font-size: 2rem;
+      color: #ff8c00;
+      cursor: pointer;
+      z-index: 3;
+      animation: floaty 2s ease-in-out infinite;
+      box-shadow: 0 0 20px #ffa500;
+    }
+
+    @keyframes floaty {
+      0%, 100% { transform: translate(-50%, -52%); }
+      50% { transform: translate(-50%, -48%); }
+    }
+  </style>
 </head>
 <body>
-  <div class="bg">
-    <img src="monkey.gif" id="monkey" alt="Monkey" />
-    <img src="cake.png" id="cake" alt="Cake" />
-    <audio id="bday-audio" src="birthday-song.mp3"></audio>
-    <div id="popup">🎉 Happy Birthday! 🎉</div>
 
-    <div class="gifts" style="display: none;">
-      <button onclick="playVideo(1)">🎁 Gift 1</button>
-      <button onclick="playVideo(2)">🎁 Gift 2</button>
-      <button onclick="playVideo(3)">🎁 Gift 3</button>
-    </div>
+  <div class="background"></div>
 
-    <div id="video-player" style="display: none;">
-      <video id="gift-video" width="300" controls></video>
-    </div>
+  <img src="oh its your birthday monkey.gif" alt="Monkey" class="monkey">
+
+  <div class="message-box" onclick="startExperience()">
+    Tap to Start
   </div>
 
-  <script src="script.js"></script>
+  <audio id="bgMusic" src="happy-birthday-song-birthday-party-birthday-dj-songs-dj-remix-songs-dj-vr7-king_dFwrwEY7.mp3"></audio>
+
+  <script>
+    function startExperience() {
+      const music = document.getElementById("bgMusic");
+      music.play();
+
+      document.querySelector(".message-box").style.display = "none";
+
+      // You can add the next step trigger here later
+      alert("Let’s move to Step 2 🧁🎊 (you'll code that soon!)");
+    }
+  </script>
+
 </body>
 </html>
