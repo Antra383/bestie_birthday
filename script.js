@@ -15,3 +15,9 @@ function showGifts() {
     });
   }, 1000); // 1s delay after fireworks vanish
 }
+// Show gifts after celebration
+setTimeout(() => {
+  document.getElementById('gift-section').style.display = 'flex';
+  document.getElementById('message-cloud').textContent = 'Open the gifts one by one 🎁';
+  document.getElementById('monkey').src = 'happy birthday monkey.gif';
+}, 20000); // after celebration
