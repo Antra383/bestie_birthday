@@ -1,33 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Happy Birthday Anand!</title>
-  <link rel="stylesheet" href="style.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Comic+Neue&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <title>Happy Birthday Anand</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&display=swap" rel="stylesheet">
 </head>
 <body>
+  <div class="container">
+    <img src="download (3).jpeg" alt="Background" class="background">
 
-  <div class="background"></div>
+    <!-- Message Cloud -->
+    <div id="message-cloud">Cut the cake 🎂</div>
 
-  <div class="cloud" id="cloud">Tap to Start</div>
-  <img id="monkey" src="oh its your birthday monkey.gif" class="monkey" />
+    <!-- Monkey -->
+    <img id="monkey" src="thanks for watching monkey.gif" class="monkey">
 
-  <img id="cake" src="cake.gif" class="cake hidden" />
-
-  <div id="fireworks" class="hidden"></div>
-
-  <div class="gifts hidden" id="gifts">
-    <img class="gift" data-type="image" data-src="pizza.jpeg" src="real gift.gif"/>
-    <img class="gift" data-type="image" data-src="iphone.jpeg" src="real gift.gif"/>
-    <img class="gift" data-type="video" data-src="clideo_editor_9ec816ebdeae407fab2813a60c3f1251.mp4" src="real gift.gif"/>
+    <!-- Gifts (initially hidden) -->
+    <div class="gifts" id="gift-section">
+      <img src="real gift.gif" class="gift" id="gift1">
+      <img src="real gift.gif" class="gift" id="gift2">
+      <img src="real gift.gif" class="gift" id="gift3">
+    </div>
   </div>
-
-  <div id="popup" class="popup hidden"></div>
-
-  <audio id="music1" src="happy-birthday-song-birthday-party-birthday-dj-songs-dj-remix-songs-dj-vr7-king_dFwrwEY7.mp3" loop></audio>
-  <audio id="music2" src="OIIAOIIA CAT Happy Birthday to You Spinning Cat Uia Meme (mp3cut.net).mp3"></audio>
 
   <script src="script.js"></script>
 </body>
