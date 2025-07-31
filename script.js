@@ -1,6 +1,3 @@
-// script.js
-
-// DOM elements
 const messageCloud = document.getElementById('messageCloud');
 const monkeyGif = document.getElementById('monkeyGif');
 const cake = document.getElementById('cake');
@@ -13,15 +10,15 @@ const song1 = document.getElementById('song1');
 const song2 = document.getElementById('song2');
 
 const monkeyGifs = [
-  'gifs/oh its your birthday monkey.gif',
-  'gifs/monkey candle blowing.gif',
-  'gifs/happy birthday monkey.gif',
-  'gifs/thanks for watching monkey.gif'
+  'oh its your birthday monkey.gif',
+  'monkey candle blowing.gif',
+  'happy birthday monkey.gif',
+  'thanks for watching monkey.gif'
 ];
 
 let stage = 0;
+let giftClickCount = 0;
 
-// 🎬 Stage 1: Tap to start
 messageCloud.addEventListener('click', () => {
   if (stage !== 0) return;
 
@@ -30,7 +27,6 @@ messageCloud.addEventListener('click', () => {
   monkeyGif.src = monkeyGifs[0];
   song1.play();
 
-  // Show cake after 2 seconds
   setTimeout(() => {
     cake.style.display = 'block';
     messageCloud.textContent = "Cut the cake 🎂";
@@ -38,20 +34,16 @@ messageCloud.addEventListener('click', () => {
   }, 2000);
 });
 
-// 🎂 Stage 2: Click cake
 cake.addEventListener('click', () => {
   if (stage !== 1) return;
 
   stage = 2;
-
-  // Enlarge cake
   cake.style.transition = 'transform 1.5s ease-in-out';
   cake.style.transform = 'scale(10)';
+
   setTimeout(() => {
     cake.style.display = 'none';
     cake.style.transform = 'scale(1)';
-    
-    // Celebration
     showFireworks();
     monkeyGif.src = monkeyGifs[2];
     messageCloud.textContent = "Happy Birthday Anand 🥳";
@@ -59,7 +51,6 @@ cake.addEventListener('click', () => {
     song2.currentTime = 0;
     song2.play();
 
-    // After 10 seconds, transition to gifts
     setTimeout(() => {
       hideFireworks();
       stage = 3;
@@ -72,14 +63,15 @@ cake.addEventListener('click', () => {
   }, 1500);
 });
 
-// 🎁 Stage 3: Gift Clicks
-document.getElementById('gift1').addEventListener('click', () => openGift('video', 'videos/clideo_editor_9ec816ebdeae407fab2813a60c3f1251.mp4', 0));
-document.getElementById('gift2').addEventListener('click', () => openGift('image', 'images/pizza.jpeg', 1));
-document.getElementById('gift3').addEventListener('click', () => openGift('image', 'images/iphone.jpeg', 2));
+document.getElementById('gift1').addEventListener('click', () =>
+  openGift('video', 'clideo_editor_9ec816ebdeae407fab2813a60c3f1251.mp4'));
+document.getElementById('gift2').addEventListener('click', () =>
+  openGift('image', 'pizza.jpeg'));
+document.getElementById('gift3').addEventListener('click', () =>
+  openGift('image', 'iphone.jpeg'));
 
-function openGift(type, src, monkeyIndex) {
-  // Switch monkey
-  monkeyGif.src = monkeyGifs[monkeyIndex + 1];
+function openGift(type, src) {
+  giftClickCount++;
 
   if (type === 'image') {
     giftVideo.style.display = 'none';
@@ -94,19 +86,20 @@ function openGift(type, src, monkeyIndex) {
 
   giftPopup.style.display = 'block';
 
-  // Auto-close after 3 seconds
   setTimeout(() => {
     giftPopup.style.display = 'none';
     giftVideo.pause();
     giftVideo.currentTime = 0;
-    messageCloud.textContent = "Thank you, see you next year! 🎉";
+
+    if (giftClickCount === 3) {
+      messageCloud.textContent = "Thank you, see you next year! 🎉";
+      monkeyGif.src = monkeyGifs[3];
+    }
   }, 3000);
 }
 
-// Fireworks (simple placeholder)
 function showFireworks() {
-  fireworks.style.display = 'block';
-  fireworks.style.background = "radial-gradient(circle, rgba(255,255,255,0.2), transparent)";
+  fireworks.style.display = 'flex';
 }
 
 function hideFireworks() {
