@@ -1,49 +1,65 @@
-.cloud {
-  position: fixed;
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden;
+  font-family: 'Comic Neue', cursive;
+}
+
+.container {
+  position: relative;
+  height: 100%;
+  width: 100%;
+}
+
+.background {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+
+/* Cloud Message Bubble */
+#message-cloud {
+  position: absolute;
   top: 20px;
   left: 50%;
   transform: translateX(-50%);
-  background: url('e92ef86f-b426-4382-9553-74ff0381d9c6.png') no-repeat center;
-  background-size: contain;
-  height: 100px;
-  width: 220px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #f4b400;
-  font-weight: bold;
-  font-size: 1.1em;
-  text-align: center;
+  background: #fff9c4;
+  color: #f6a600;
+  font-size: 22px;
+  padding: 15px 30px;
+  border-radius: 50px;
+  box-shadow: 0 0 12px rgba(0,0,0,0.1);
+  border: 2px dashed #f4d03f;
   z-index: 999;
-  font-family: 'Comic Neue', cursive;
-  padding: 10px;
 }
 
+/* Monkey Styling */
 .monkey {
-  position: fixed;
-  bottom: 30px;
-  left: 50%;
-  transform: translateX(-50%);
-  height: 150px;
-  z-index: 1000;
-}
-
-.cake {
   position: absolute;
-  bottom: 100px;
+  bottom: 60px;
   left: 50%;
   transform: translateX(-50%);
-  height: 100px;
-  z-index: 100;
-  transition: transform 1.5s ease-in-out;
+  height: 160px;
+  z-index: 998;
 }
 
+/* Gift Section */
 .gifts {
   position: absolute;
-  bottom: 120px;
+  bottom: 40px;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
   gap: 15px;
-  z-index: 90;
+  z-index: 997;
+  display: none; /* hidden by default */
+}
+
+.gift {
+  width: 70px;
+  height: auto;
+  cursor: pointer;
 }
