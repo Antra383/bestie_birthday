@@ -1,30 +1,46 @@
+<!-- index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Happy Birthday Anand</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Happy Birthday Anand 🎉</title>
   <link rel="stylesheet" href="style.css">
-  <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&display=swap" rel="stylesheet">
 </head>
 <body>
-  <div class="container">
-    <img src="download (3).jpeg" alt="Background" class="background">
 
-    <!-- Message Cloud -->
-    <div id="message-cloud">Cut the cake 🎂</div>
+  <!-- Background -->
+  <div id="background"></div>
 
-    <!-- Monkey -->
-    <img id="monkey" src="thanks for watching monkey.gif" class="monkey">
+  <!-- Message Cloud -->
+  <div id="messageCloud">Tap to start</div>
 
-    <!-- Gifts (initially hidden) -->
-    <div class="gifts" id="gift-section">
-      <img src="real gift.gif" class="gift" id="gift1">
-      <img src="real gift.gif" class="gift" id="gift2">
-      <img src="real gift.gif" class="gift" id="gift3">
-    </div>
+  <!-- Monkey GIF -->
+  <img id="monkeyGif" src="gifs/oh its your birthday monkey.gif" alt="Monkey" />
+
+  <!-- Cake -->
+  <img id="cake" src="images/cake.gif" alt="Cake" />
+
+  <!-- Gifts -->
+  <div class="gifts">
+    <img class="giftBox" id="gift1" src="images/real gift.gif" alt="Gift 1" />
+    <img class="giftBox" id="gift2" src="images/real gift.gif" alt="Gift 2" />
+    <img class="giftBox" id="gift3" src="images/real gift.gif" alt="Gift 3" />
   </div>
+
+  <!-- Pop-up for gift content -->
+  <div id="giftPopup">
+    <video id="giftVideo" controls></video>
+    <img id="giftImage" />
+  </div>
+
+  <!-- Celebration effects -->
+  <div id="fireworks"></div>
+
+  <!-- Audio -->
+  <audio id="song1" src="audio/happy-birthday-song-birthday-party-birthday-dj-songs-dj-remix-songs-dj-vr7-king_dFwrwEY7.mp3" loop></audio>
+  <audio id="song2" src="audio/OIIAOIIA CAT Happy Birthday to You Spinning Cat Uia Meme (mp3cut.net).mp3" loop></audio>
 
   <script src="script.js"></script>
 </body>
 </html>
-
