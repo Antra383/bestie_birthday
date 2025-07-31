@@ -3,24 +3,32 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Birthday Bash</title>
-  <link rel="stylesheet" href="styles.css" />
+  <title>Happy Birthday Anand!</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Comic+Neue&display=swap" rel="stylesheet">
 </head>
 <body>
-  <div id="container">
-    <!-- Note: spaces and parentheses percent‑encoded -->
-    <img id="monkey" src="assets/oh%20its%20your%20birthday%20monkey.gif" alt="Monkey" />
-    <div id="overlay"></div>
-    <div id="cloud"><span id="cloud-text">Tap to Start</span></div>
-    <img id="cake" src="assets/cake.gif" alt="Cake" />
-    <div id="gifts-container">
-      <img class="gift" id="gift-1" src="assets/real%20gift.gif" alt="Gift Box 1" />
-      <img class="gift" id="gift-2" src="assets/real%20gift.gif" alt="Gift Box 2" />
-      <video class="gift" id="gift-3" src="assets/clideo_editor_9ec816ebdeae407fab2813a60c3f1251.mp4" muted preload="auto"></video>
-    </div>
-    <audio id="bg-music" loop src="assets/happy-birthday-song-birthday-party-birthday-dj-songs-dj-remix-songs-dj-vr7-king_dFwrwEY7.mp3"></audio>
-    <audio id="fw-music" src="assets/OIIAOIIA%20CAT%20Happy%20Birthday%20to%20You%20Spinning%20Cat%20Uia%20Meme%20(mp3cut.net).mp3"></audio>
+
+  <div class="background"></div>
+
+  <div class="cloud" id="cloud">Tap to Start</div>
+  <img id="monkey" src="oh its your birthday monkey.gif" class="monkey" />
+
+  <img id="cake" src="cake.gif" class="cake hidden" />
+
+  <div id="fireworks" class="hidden"></div>
+
+  <div class="gifts hidden" id="gifts">
+    <img class="gift" data-type="image" data-src="pizza.jpeg" src="real gift.gif"/>
+    <img class="gift" data-type="image" data-src="iphone.jpeg" src="real gift.gif"/>
+    <img class="gift" data-type="video" data-src="clideo_editor_9ec816ebdeae407fab2813a60c3f1251.mp4" src="real gift.gif"/>
   </div>
+
+  <div id="popup" class="popup hidden"></div>
+
+  <audio id="music1" src="happy-birthday-song-birthday-party-birthday-dj-songs-dj-remix-songs-dj-vr7-king_dFwrwEY7.mp3" loop></audio>
+  <audio id="music2" src="OIIAOIIA CAT Happy Birthday to You Spinning Cat Uia Meme (mp3cut.net).mp3"></audio>
+
   <script src="script.js"></script>
 </body>
 </html>
