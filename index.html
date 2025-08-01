@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Anand's Birthday Celebration</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Bubblegum+Sans&family=Comic+Neue:wght@700&display=swap');
         
         * {
             margin: 0;
@@ -33,9 +33,9 @@
         
         .monkey {
             position: absolute;
-            top: 35%; /* Position below the cloud */
-            width: 200px;
-            height: 200px;
+            top: 40%;
+            width: 180px;
+            height: 180px;
             z-index: 10;
             cursor: pointer;
             transition: all 0.3s ease;
@@ -45,9 +45,9 @@
         
         .cloud {
             position: absolute;
-            top: 20%;
-            width: 300px;
-            height: 150px;
+            top: 15%;
+            width: 280px;
+            height: 140px;
             z-index: 20;
             display: flex;
             justify-content: center;
@@ -58,24 +58,28 @@
         
         .message {
             position: absolute;
-            top: 20%;
-            width: 280px;
+            top: 15%;
+            width: 260px;
             text-align: center;
-            color: #ffffe0; /* Lighter pastel yellow */
+            color: #FF69B4; /* Strawberry pink */
+            font-family: 'Bubblegum Sans', cursive;
             font-size: 24px;
+            font-weight: bold;
             z-index: 30;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3), 0 0 10px rgba(255,105,180,0.5);
             cursor: pointer;
             left: 50%;
             transform: translateX(-50%);
+            letter-spacing: 1px;
+            padding: 10px;
         }
         
         .cake {
             position: absolute;
-            top: 50%; /* Center vertically */
-            width: 150px;
-            height: 150px;
-            z-index: 15; /* Above monkey but below cloud */
+            top: 55%;
+            width: 120px;
+            height: 120px;
+            z-index: 15;
             display: none;
             cursor: pointer;
             left: 50%;
@@ -100,18 +104,18 @@
         
         .gifts-container {
             position: absolute;
-            bottom: 10%;
+            bottom: 15%;
             width: 100%;
             display: flex;
             justify-content: center;
-            gap: 30px;
+            gap: 40px;
             z-index: 5;
             display: none;
         }
         
         .gift {
-            width: 100px;
-            height: 100px;
+            width: 80px;
+            height: 80px;
             cursor: pointer;
             transition: transform 0.3s ease;
         }
@@ -123,10 +127,10 @@
         .popup {
             position: fixed;
             top: 50%;
-            right: 10%;
+            right: 15%;
             transform: translateY(-50%) scale(0);
-            width: 300px;
-            height: 300px;
+            width: 250px;
+            height: 250px;
             background-color: white;
             border-radius: 15px;
             box-shadow: 0 0 20px rgba(0,0,0,0.3);
@@ -171,12 +175,31 @@
             100% { transform: translateY(-50%) scale(1); }
         }
         
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        @keyframes fadeOut {
+            0% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+        
         .cake-grow {
             animation: cakeGrow 1.5s forwards;
         }
         
         .popup-pop {
             animation: popAnimation 0.5s ease-out forwards;
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        .fade-out {
+            animation: fadeOut 1.5s forwards;
         }
     </style>
 </head>
@@ -201,7 +224,7 @@
         <source src="happy-birthday-song-birthday-party-birthday-dj-songs-dj-remix-songs-dj-vr7-king_dFwrwEY7.mp3" type="audio/mpeg">
     </audio>
     
-    <audio id="song2"> <!-- Removed loop attribute -->
+    <audio id="song2">
         <source src="OIIAOIIA CAT Happy Birthday to You Spinning Cat Uia Meme (mp3cut.net).mp3" type="audio/mpeg">
     </audio>
 
@@ -222,6 +245,41 @@
             let currentStep = 0;
             let giftsOpened = 0;
             let fireworkInterval;
+            let celebrationTimeout;
+            let finalTimeout;
+            
+            // Function to reset the webpage to initial state
+            function resetWebpage() {
+                // Stop all animations and intervals
+                clearInterval(fireworkInterval);
+                clearTimeout(celebrationTimeout);
+                clearTimeout(finalTimeout);
+                
+                // Stop all music
+                song1.pause();
+                song2.pause();
+                song1.currentTime = 0;
+                song2.currentTime = 0;
+                
+                // Reset variables
+                currentStep = 0;
+                giftsOpened = 0;
+                
+                // Hide all elements
+                cake.style.display = 'none';
+                fireworks.style.display = 'none';
+                giftsContainer.style.display = 'none';
+                popup.style.display = 'none';
+                
+                // Reset monkey and message
+                monkey.src = "oh its your birthday monkey.gif";
+                message.textContent = "Tap to start";
+                message.classList.remove('pulse', 'fade-out');
+                
+                // Remove any animation classes
+                cake.classList.remove('cake-grow');
+                popup.classList.remove('popup-pop');
+            }
             
             // Function to create a firework
             function createFirework() {
@@ -323,16 +381,21 @@
                         song2.play();
                         currentStep = 2;
                         
-                        // When song2 ends, show gifts
-                        song2.addEventListener('ended', function() {
+                        // Set timeout for 10 seconds of celebration
+                        celebrationTimeout = setTimeout(function() {
                             stopFireworks();
                             fireworks.style.display = 'none';
-                            giftsContainer.style.display = 'flex';
-                            monkey.src = "thanks for watching monkey.gif";
+                            monkey.src = "open the gifts monkey.gif";
                             message.textContent = "open the gifts one by one";
+                            song2.pause();
                             song1.play();
-                            currentStep = 3;
-                        });
+                            
+                            // Show gifts after a short delay
+                            setTimeout(function() {
+                                giftsContainer.style.display = 'flex';
+                                currentStep = 3;
+                            }, 500);
+                        }, 10000); // 10 seconds
                     }, 1500);
                 }
             });
@@ -363,15 +426,22 @@
                             popup.style.display = 'none';
                             popup.classList.remove('popup-pop');
                             
-                            // Change monkey after each gift
-                            if (giftsOpened === 1) {
-                                monkey.src = "oh its your birthday monkey.gif";
-                            } else if (giftsOpened === 2) {
-                                monkey.src = "monkey candle blowing.gif";
-                            } else if (giftsOpened === 3) {
-                                monkey.src = "thanks for watching monkey.gif";
-                                message.textContent = "thank you see you next year";
-                                currentStep = 4;
+                            // Check if all gifts are opened
+                            if (giftsOpened === 3) {
+                                // Hide gifts container
+                                giftsContainer.classList.add('fade-out');
+                                
+                                // Change monkey to thanks for watching
+                                setTimeout(function() {
+                                    monkey.src = "thanks for watching monkey.gif";
+                                    message.textContent = "thank you see you next year";
+                                    message.classList.add('pulse');
+                                    
+                                    // After 1.5 seconds, reset the webpage
+                                    finalTimeout = setTimeout(function() {
+                                        resetWebpage();
+                                    }, 1500);
+                                }, 500); // Wait for fade out animation
                             }
                         }, 3000);
                     }
