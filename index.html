@@ -318,9 +318,9 @@
         </div>
     </div>
     
-    <!-- Only the second song now -->
+    <!-- Using only the specified song -->
     <audio id="song" loop>
-        <source src="OIIAOIIA CAT Happy Birthday to You Spinning Cat Uia Meme (mp3cut.net).mp3" type="audio/mpeg">
+        <source src="happy-birthday-song-birthday-party-birthday-dj-songs-dj-remix-songs-dj-vr7-king_dFwrwEY7.mp3" type="audio/mpeg">
     </audio>
 
     <script>
@@ -605,7 +605,7 @@
                         startCelebration();
                         currentStep = 2;
                         
-                        // Set timeout for 7 seconds of celebration
+                        // Set timeout for 5.5 seconds of celebration
                         celebrationTimeout = setTimeout(function() {
                             stopCelebration();
                             fireworks.style.display = 'none';
@@ -617,7 +617,7 @@
                                 giftsContainer.style.display = 'flex';
                                 currentStep = 3;
                             }, 500);
-                        }, 7000); // 7 seconds
+                        }, 5500); // 5.5 seconds
                     }, 1500);
                 }
             });
@@ -673,10 +673,10 @@
                                     message.textContent = "thank you see you next year";
                                     message.classList.add('pulse');
                                     
-                                    // After 2 seconds, reset the webpage
+                                    // After 2.3 seconds, reset the webpage
                                     finalTimeout = setTimeout(function() {
                                         resetWebpage();
-                                    }, 2000);
+                                    }, 2300); // 2.3 seconds
                                 }, 500); // Wait for fade out animation
                             }
                         }, 3000);
