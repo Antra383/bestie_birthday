@@ -1,44 +1,429 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Happy Birthday Anand 🎉</title>
-  <link rel="stylesheet" href="style.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday Anand!</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Comic Neue', cursive;
+            overflow: hidden;
+            position: relative;
+            height: 100vh;
+            background: url('download (3).jpeg') center/cover no-repeat;
+        }
+        
+        /* Message Cloud Styles */
+        .message-cloud {
+            position: absolute;
+            top: 20%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(255, 255, 255, 0.85);
+            border-radius: 50%;
+            padding: 25px 40px;
+            text-align: center;
+            z-index: 100;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            max-width: 80%;
+            border: 3px solid #ff9ff3;
+        }
+        
+        .message-cloud:before {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 30px;
+            height: 30px;
+            background-color: rgba(255, 255, 255, 0.85);
+            border-radius: 50%;
+            border-bottom: 3px solid #ff9ff3;
+            border-right: 3px solid #ff9ff3;
+        }
+        
+        .message-cloud p {
+            color: #ffeb3b; /* Pastel yellow */
+            font-size: 1.8rem;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* Monkey Container */
+        .monkey-container {
+            position: absolute;
+            bottom: 10%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 250px;
+            height: 250px;
+            z-index: 99;
+        }
+        
+        .monkey {
+            width: 100%;
+            height: 100%;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+        
+        /* Cake Styles */
+        .cake-container {
+            position: absolute;
+            bottom: 15%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 200px;
+            z-index: 50;
+            display: none;
+            cursor: pointer;
+        }
+        
+        .cake {
+            width: 100%;
+            height: 100%;
+            background: url('cake.gif') center/contain no-repeat;
+            transition: transform 1.5s ease-in-out;
+        }
+        
+        .cake.enlarge {
+            transform: scale(20);
+            opacity: 0;
+        }
+        
+        /* Gifts Styles */
+        .gifts-container {
+            position: absolute;
+            bottom: 15%;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            justify-content: space-around;
+            width: 80%;
+            max-width: 600px;
+            z-index: 50;
+            display: none;
+        }
+        
+        .gift {
+            width: 150px;
+            height: 150px;
+            cursor: pointer;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            transition: transform 0.3s;
+        }
+        
+        .gift:hover {
+            transform: scale(1.1);
+        }
+        
+        /* Gift Content Popup - Small Size */
+        .gift-content {
+            position: fixed;
+            top: 50%;
+            right: 10%;
+            transform: translateY(-50%);
+            width: 250px;
+            height: 250px;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            z-index: 200;
+            display: none;
+            overflow: hidden;
+        }
+        
+        .gift-content img, .gift-content video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        /* Fireworks and Party Effects */
+        .effects-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 90;
+            display: none;
+        }
+        
+        .firework {
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            animation: explode 1.5s ease-out forwards;
+        }
+        
+        @keyframes explode {
+            0% {
+                transform: translate(0, 0);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(var(--x), var(--y));
+                opacity: 0;
+            }
+        }
+        
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #ff9ff3;
+            animation: fall 3s linear forwards;
+        }
+        
+        @keyframes fall {
+            0% {
+                transform: translateY(-100px) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+        
+        /* Audio Controls (hidden) */
+        .audio-controls {
+            display: none;
+        }
+    </style>
 </head>
 <body>
+    <!-- Message Cloud -->
+    <div class="message-cloud">
+        <p id="message-text">Tap to start</p>
+    </div>
+    
+    <!-- Monkey Container -->
+    <div class="monkey-container">
+        <div class="monkey" id="monkey" style="background-image: url('oh its your birthday monkey.gif');"></div>
+    </div>
+    
+    <!-- Cake Container -->
+    <div class="cake-container" id="cake-container">
+        <div class="cake" id="cake"></div>
+    </div>
+    
+    <!-- Gifts Container -->
+    <div class="gifts-container" id="gifts-container">
+        <div class="gift" id="gift1" style="background-image: url('real gift.gif');"></div>
+        <div class="gift" id="gift2" style="background-image: url('real gift.gif');"></div>
+        <div class="gift" id="gift3" style="background-image: url('real gift.gif');"></div>
+    </div>
+    
+    <!-- Gift Content Popup -->
+    <div class="gift-content" id="gift-content">
+        <!-- Content will be dynamically inserted -->
+    </div>
+    
+    <!-- Effects Container -->
+    <div class="effects-container" id="effects-container"></div>
+    
+    <!-- Audio Controls -->
+    <div class="audio-controls">
+        <audio id="background-music" loop>
+            <source src="happy-birthday-song-birthday-party-birthday-dj-songs-dj-remix-songs-dj-vr7-king_dFwrwEY7.mp3" type="audio/mpeg">
+        </audio>
+        <audio id="celebration-music">
+            <source src="OIIAOIIA CAT Happy Birthday to You Spinning Cat Uia Meme (mp3cut.net).mp3" type="audio/mpeg">
+        </audio>
+    </div>
 
-  <div id="background"></div>
-
-  <!-- Message Cloud with image background -->
-  <div id="messageCloud">Tap to start</div>
-
-  <!-- Monkey -->
-  <img id="monkeyGif" src="oh its your birthday monkey.gif" alt="Monkey" />
-
-  <!-- Cake -->
-  <img id="cake" src="cake.gif" alt="Cake" />
-
-  <!-- Gifts -->
-  <div class="gifts">
-    <img class="giftBox" id="gift1" src="real gift.gif" alt="Gift 1" />
-    <img class="giftBox" id="gift2" src="real gift.gif" alt="Gift 2" />
-    <img class="giftBox" id="gift3" src="real gift.gif" alt="Gift 3" />
-  </div>
-
-  <!-- Gift Pop-up -->
-  <div id="giftPopup">
-    <video id="giftVideo" controls></video>
-    <img id="giftImage" />
-  </div>
-
-  <!-- Fireworks placeholder -->
-  <div id="fireworks"><div class="sparkle"></div></div>
-
-  <!-- Audio -->
-  <audio id="song1" src="happy-birthday-song-birthday-party-birthday-dj-songs-dj-remix-songs-dj-vr7-king_dFwrwEY7.mp3" loop></audio>
-  <audio id="song2" src="OIIAOIIA CAT Happy Birthday to You Spinning Cat Uia Meme (mp3cut.net).mp3" loop></audio>
-
-  <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Elements
+            const messageText = document.getElementById('message-text');
+            const monkey = document.getElementById('monkey');
+            const cakeContainer = document.getElementById('cake-container');
+            const cake = document.getElementById('cake');
+            const giftsContainer = document.getElementById('gifts-container');
+            const giftContent = document.getElementById('gift-content');
+            const effectsContainer = document.getElementById('effects-container');
+            const backgroundMusic = document.getElementById('background-music');
+            const celebrationMusic = document.getElementById('celebration-music');
+            
+            // Gift content URLs
+            const giftContents = [
+                { type: 'image', url: 'pizza.jpeg' },
+                { type: 'image', url: 'iphone.jpeg' },
+                { type: 'video', url: 'clideo_editor_9ec816ebdeae407fab2813a60c3f1251.mp4' }
+            ];
+            
+            // Monkey GIF URLs
+            const monkeyGifs = [
+                'oh its your birthday monkey.gif',
+                'monkey candle blowing.gif',
+                'happy birthday monkey.gif',
+                'thanks for watching monkey.gif'
+            ];
+            
+            let currentStage = 0;
+            let giftsOpened = 0;
+            
+            // Start the experience
+            document.addEventListener('click', function startExperience() {
+                if (currentStage === 0) {
+                    currentStage = 1;
+                    messageText.textContent = "Oh it's your birthday";
+                    monkey.style.backgroundImage = `url('${monkeyGifs[0]}')`;
+                    backgroundMusic.play();
+                    
+                    // Show cake after 2 seconds
+                    setTimeout(() => {
+                        currentStage = 2;
+                        cakeContainer.style.display = 'block';
+                        messageText.textContent = "Cut the cake";
+                        monkey.style.backgroundImage = `url('${monkeyGifs[1]}')`;
+                    }, 2000);
+                    
+                    document.removeEventListener('click', startExperience);
+                }
+            });
+            
+            // Cake click event
+            cake.addEventListener('click', function() {
+                if (currentStage === 2) {
+                    currentStage = 3;
+                    cake.classList.add('enlarge');
+                    
+                    // Start celebration effects
+                    setTimeout(() => {
+                        effectsContainer.style.display = 'block';
+                        createFireworks();
+                        createConfetti();
+                        messageText.textContent = "Happy Birthday Anand!";
+                        monkey.style.backgroundImage = `url('${monkeyGifs[2]}')`;
+                        
+                        // Switch music
+                        backgroundMusic.pause();
+                        celebrationMusic.play();
+                        
+                        // After celebration music ends
+                        celebrationMusic.onended = function() {
+                            currentStage = 4;
+                            effectsContainer.style.display = 'none';
+                            messageText.textContent = "Open the gifts one by one";
+                            monkey.style.backgroundImage = `url('${monkeyGifs[3]}')`;
+                            giftsContainer.style.display = 'flex';
+                            backgroundMusic.play();
+                        };
+                    }, 1500);
+                }
+            });
+            
+            // Gift click events
+            document.getElementById('gift1').addEventListener('click', function() {
+                openGift(0);
+            });
+            
+            document.getElementById('gift2').addEventListener('click', function() {
+                openGift(1);
+            });
+            
+            document.getElementById('gift3').addEventListener('click', function() {
+                openGift(2);
+            });
+            
+            function openGift(index) {
+                if (currentStage === 4 && giftsOpened <= index) {
+                    giftsOpened = index + 1;
+                    
+                    // Show gift content
+                    if (giftContents[index].type === 'image') {
+                        giftContent.innerHTML = `<img src="${giftContents[index].url}" alt="Gift ${index + 1}">`;
+                    } else {
+                        giftContent.innerHTML = `<video src="${giftContents[index].url}" controls autoplay></video>`;
+                    }
+                    giftContent.style.display = 'block';
+                    
+                    // Hide gift content after 3 seconds
+                    setTimeout(() => {
+                        giftContent.style.display = 'none';
+                        
+                        // Check if all gifts are opened
+                        if (giftsOpened === 3) {
+                            messageText.textContent = "Thank you see you next year";
+                        }
+                    }, 3000);
+                }
+            }
+            
+            // Create fireworks effect
+            function createFireworks() {
+                const colors = ['#ff5252', '#ff4081', '#e040fb', '#7c4dff', '#536dfe', '#448aff', '#40c4ff', '#18ffff', '#64ffda', '#69f0ae', '#b2ff59', '#eeff41', '#ffff00', '#ffd740', '#ffab40', '#ff6e40'];
+                
+                for (let i = 0; i < 50; i++) {
+                    setTimeout(() => {
+                        const firework = document.createElement('div');
+                        firework.className = 'firework';
+                        
+                        // Random position
+                        const x = Math.random() * window.innerWidth;
+                        const y = Math.random() * window.innerHeight * 0.5;
+                        
+                        firework.style.left = `${x}px`;
+                        firework.style.top = `${y}px`;
+                        firework.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                        
+                        // Random explosion direction
+                        const angle = Math.random() * Math.PI * 2;
+                        const distance = 100 + Math.random() * 100;
+                        firework.style.setProperty('--x', `${Math.cos(angle) * distance}px`);
+                        firework.style.setProperty('--y', `${Math.sin(angle) * distance}px`);
+                        
+                        effectsContainer.appendChild(firework);
+                        
+                        // Remove after animation
+                        setTimeout(() => {
+                            firework.remove();
+                        }, 1500);
+                    }, i * 100);
+                }
+            }
+            
+            // Create confetti effect
+            function createConfetti() {
+                const colors = ['#ff9ff3', '#feca57', '#ff6b6b', '#48dbfb', '#1dd1a1', '#f368e0'];
+                
+                for (let i = 0; i < 100; i++) {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    
+                    // Random position
+                    confetti.style.left = `${Math.random() * 100}%`;
+                    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.width = `${10 + Math.random() * 10}px`;
+                    confetti.style.height = confetti.style.width;
+                    confetti.style.opacity = Math.random() * 0.8 + 0.2;
+                    
+                    effectsContainer.appendChild(confetti);
+                    
+                    // Remove after animation
+                    setTimeout(() => {
+                        confetti.remove();
+                    }, 3000);
+                }
+            }
+        });
+    </script>
 </body>
 </html>
