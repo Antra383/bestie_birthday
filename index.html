@@ -33,43 +33,49 @@
         
         .monkey {
             position: absolute;
-            bottom: 20%;
+            top: 35%; /* Position below the cloud */
             width: 200px;
             height: 200px;
             z-index: 10;
             cursor: pointer;
             transition: all 0.3s ease;
+            left: 50%;
+            transform: translateX(-50%);
         }
         
         .cloud {
             position: absolute;
-            top: 25%;
+            top: 20%;
             width: 300px;
             height: 150px;
             z-index: 20;
             display: flex;
             justify-content: center;
             align-items: center;
+            left: 50%;
+            transform: translateX(-50%);
         }
         
         .message {
             position: absolute;
-            top: 25%;
+            top: 20%;
             width: 280px;
             text-align: center;
-            color: #ffffcc; /* Pastel yellow */
+            color: #ffffe0; /* Lighter pastel yellow */
             font-size: 24px;
             z-index: 30;
             text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
             cursor: pointer;
+            left: 50%;
+            transform: translateX(-50%);
         }
         
         .cake {
             position: absolute;
-            bottom: 20%;
+            top: 50%; /* Center vertically */
             width: 150px;
             height: 150px;
-            z-index: 15;
+            z-index: 15; /* Above monkey but below cloud */
             display: none;
             cursor: pointer;
             left: 50%;
@@ -195,7 +201,7 @@
         <source src="happy-birthday-song-birthday-party-birthday-dj-songs-dj-remix-songs-dj-vr7-king_dFwrwEY7.mp3" type="audio/mpeg">
     </audio>
     
-    <audio id="song2" loop>
+    <audio id="song2"> <!-- Removed loop attribute -->
         <source src="OIIAOIIA CAT Happy Birthday to You Spinning Cat Uia Meme (mp3cut.net).mp3" type="audio/mpeg">
     </audio>
 
@@ -324,7 +330,6 @@
                             giftsContainer.style.display = 'flex';
                             monkey.src = "thanks for watching monkey.gif";
                             message.textContent = "open the gifts one by one";
-                            song2.pause();
                             song1.play();
                             currentStep = 3;
                         });
