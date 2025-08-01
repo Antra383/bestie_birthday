@@ -318,11 +318,8 @@
         </div>
     </div>
     
-    <audio id="song1" loop>
-        <source src="happy-birthday-song-birthday-party-birthday-dj-songs-dj-remix-songs-dj-vr7-king_dFwrwEY7.mp3" type="audio/mpeg">
-    </audio>
-    
-    <audio id="song2" loop>
+    <!-- Only one audio element now -->
+    <audio id="song" loop>
         <source src="OIIAOIIA CAT Happy Birthday to You Spinning Cat Uia Meme (mp3cut.net).mp3" type="audio/mpeg">
     </audio>
 
@@ -336,8 +333,7 @@
             const fireworks = document.getElementById('fireworks');
             const giftsContainer = document.getElementById('gifts-container');
             const popup = document.getElementById('popup');
-            const song1 = document.getElementById('song1');
-            const song2 = document.getElementById('song2');
+            const song = document.getElementById('song');
             const gifts = document.querySelectorAll('.gift');
             const musicControl = document.getElementById('musicControl');
             const musicIcon = document.getElementById('musicIcon');
@@ -350,14 +346,14 @@
             let sparkleInterval;
             let celebrationTimeout;
             let finalTimeout;
-            let currentSong = song2; // Start with the second song
             let isPlaying = true;
+            let musicPausedForGift = false;
             
-            // Set initial volume for second song (background music)
-            song2.volume = 0.3;
+            // Set initial volume for the song
+            song.volume = 0.3;
             
-            // Play the second song when page loads
-            song2.play().catch(e => console.log("Autoplay prevented:", e));
+            // Play the song when page loads
+            song.play().catch(e => console.log("Autoplay prevented:", e));
             
             // Function to reset the webpage to initial state
             function resetWebpage() {
@@ -369,15 +365,15 @@
                 clearTimeout(celebrationTimeout);
                 clearTimeout(finalTimeout);
                 
-                // Stop all music
-                song1.pause();
-                song2.pause();
-                song1.currentTime = 0;
-                song2.currentTime = 0;
+                // Reset music
+                song.pause();
+                song.currentTime = 0;
+                song.volume = 0.3;
                 
                 // Reset variables
                 currentStep = 0;
                 giftsOpened = 0;
+                musicPausedForGift = false;
                 
                 // Hide all elements
                 cake.style.display = 'none';
@@ -394,10 +390,8 @@
                 cake.classList.remove('cake-grow');
                 popup.classList.remove('popup-pop');
                 
-                // Reset current song to second song
-                currentSong = song2;
-                song2.volume = 0.3;
-                song2.play().catch(e => console.log("Autoplay prevented:", e));
+                // Play the song again
+                song.play().catch(e => console.log("Autoplay prevented:", e));
                 
                 // Update music icon
                 musicIcon.className = 'fas fa-pause music-icon';
@@ -568,10 +562,10 @@
             // Music control button functionality
             musicControl.addEventListener('click', function() {
                 if (isPlaying) {
-                    currentSong.pause();
+                    song.pause();
                     musicIcon.className = 'fas fa-play music-icon';
                 } else {
-                    currentSong.play().catch(e => console.log("Play prevented:", e));
+                    song.play().catch(e => console.log("Play prevented:", e));
                     musicIcon.className = 'fas fa-pause music-icon';
                 }
                 isPlaying = !isPlaying;
@@ -580,11 +574,6 @@
             // Step 1: Initial state - tap to start
             message.addEventListener('click', function() {
                 if (currentStep === 0) {
-                    // Stop second song and start first song
-                    song2.pause();
-                    song1.play();
-                    currentSong = song1;
-                    
                     // Change message and monkey
                     message.textContent = "oh its your birthday";
                     monkey.src = "oh its your birthday monkey.gif";
@@ -647,8 +636,11 @@
                         } else if (giftNumber === '3') {
                             popup.innerHTML = '<video controls autoplay><source src="clideo_editor_9ec816ebdeae407fab2813a60c3f1251.mp4" type="video/mp4"></video>';
                             
-                            // Lower volume to 30% when third gift opens
-                            song1.volume = 0.3;
+                            // Stop music when third gift is opened
+                            song.pause();
+                            musicPausedForGift = true;
+                            musicIcon.className = 'fas fa-play music-icon';
+                            isPlaying = false;
                         }
                         
                         popup.style.display = 'block';
@@ -661,6 +653,14 @@
                         setTimeout(function() {
                             popup.style.display = 'none';
                             popup.classList.remove('popup-pop');
+                            
+                            // Resume music if it was paused for the third gift
+                            if (musicPausedForGift) {
+                                song.play().catch(e => console.log("Play prevented:", e));
+                                musicIcon.className = 'fas fa-pause music-icon';
+                                isPlaying = true;
+                                musicPausedForGift = false;
+                            }
                             
                             // Check if all gifts are opened
                             if (giftsOpened === 3) {
