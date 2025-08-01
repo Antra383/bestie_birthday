@@ -22,53 +22,29 @@ body, html {
   z-index: -1;
 }
 
+/* Message cloud using image */
 #messageCloud {
   position: absolute;
   top: 10%;
   left: 50%;
   transform: translateX(-50%);
-  background: white;
-  padding: 20px 40px;
+  background: url('cloud.png') no-repeat center/contain;
+  padding: 25px 60px;
+  min-width: 200px;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   color: #fce57e;
   font-weight: bold;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   text-align: center;
   font-family: 'Comic Sans MS', cursive, sans-serif;
   z-index: 1000;
-  filter: drop-shadow(0 10px 20px rgba(0,0,0,0.15));
-  border-radius: 50px;
-  display: inline-block;
-  line-height: 1.2;
-  position: relative;
+  pointer-events: auto;
 }
 
-#messageCloud::before,
-#messageCloud::after {
-  content: "";
-  position: absolute;
-  background: white;
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  top: -25px;
-  box-shadow: 0 0 15px rgba(0,0,0,0.1);
-}
-
-#messageCloud::before {
-  left: 15%;
-}
-
-#messageCloud::after {
-  right: 15%;
-}
-
-#messageCloud::after {
-  /* tail triangle below */
-}
-#messageCloud::after {
-  /* keep bump on right; add tail via extra pseudo if needed */
-}
-
+/* Monkey */
 #monkeyGif {
   position: absolute;
   top: 25%;
@@ -78,6 +54,7 @@ body, html {
   z-index: 999;
 }
 
+/* Cake */
 #cake {
   position: absolute;
   top: 60%;
@@ -89,13 +66,14 @@ body, html {
   z-index: 10;
 }
 
+/* Gifts: hidden initially */
 .gifts {
   position: absolute;
   top: 65%;
   left: 50%;
   transform: translateX(-50%);
   gap: 20px;
-  display: none;
+  display: none; /* ensure hidden until shown by JS */
   z-index: 10;
   display: flex;
 }
