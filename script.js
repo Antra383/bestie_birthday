@@ -23,13 +23,13 @@ messageCloud.addEventListener('click', () => {
   if (stage !== 0) return;
 
   stage = 1;
-  messageCloud.textContent = "Oh! It's your birthday!";
+  messageCloud.innerHTML = "Oh! It's your birthday!<div class='tail'></div>";
   monkeyGif.src = monkeyGifs[0];
   song1.play();
 
   setTimeout(() => {
     cake.style.display = 'block';
-    messageCloud.textContent = "Cut the cake 🎂";
+    messageCloud.innerHTML = "Cut the cake 🎂<div class='tail'></div>";
     monkeyGif.src = monkeyGifs[1];
   }, 2000);
 });
@@ -46,7 +46,7 @@ cake.addEventListener('click', () => {
     cake.style.transform = 'scale(1)';
     showFireworks();
     monkeyGif.src = monkeyGifs[2];
-    messageCloud.textContent = "Happy Birthday Anand 🥳";
+    messageCloud.innerHTML = "Happy Birthday Anand 🥳<div class='tail'></div>";
     song1.pause();
     song2.currentTime = 0;
     song2.play();
@@ -55,7 +55,7 @@ cake.addEventListener('click', () => {
       hideFireworks();
       stage = 3;
       monkeyGif.src = monkeyGifs[3];
-      messageCloud.textContent = "Open the gifts one by one 🎁";
+      messageCloud.innerHTML = "Open the gifts one by one 🎁<div class='tail'></div>";
       gifts.style.display = 'flex';
       song2.pause();
       song1.play();
@@ -92,8 +92,10 @@ function openGift(type, src) {
     giftVideo.currentTime = 0;
 
     if (giftClickCount === 3) {
-      messageCloud.textContent = "Thank you, see you next year! 🎉";
+      messageCloud.innerHTML = "Thank you, see you next year! 🎉<div class='tail'></div>";
       monkeyGif.src = monkeyGifs[3];
+    } else {
+      messageCloud.innerHTML = "Thank you, see you next year! 🎉<div class='tail'></div>";
     }
   }, 3000);
 }
@@ -105,3 +107,4 @@ function showFireworks() {
 function hideFireworks() {
   fireworks.style.display = 'none';
 }
+
