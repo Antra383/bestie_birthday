@@ -102,6 +102,29 @@
             animation: fireworkAnimation 1.5s ease-out forwards;
         }
         
+        .cracker {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            animation: crackerAnimation 1s ease-out forwards;
+        }
+        
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            animation: confettiAnimation 3s linear forwards;
+        }
+        
+        .sparkle {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            animation: sparkleAnimation 1.5s ease-out forwards;
+        }
+        
         .gifts-container {
             position: absolute;
             bottom: 15%;
@@ -184,6 +207,42 @@
         }
         
         @keyframes fireworkAnimation {
+            0% {
+                transform: scale(0);
+                opacity: 1;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 0;
+            }
+        }
+        
+        @keyframes crackerAnimation {
+            0% {
+                transform: translate(0, 0);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(var(--tx), var(--ty));
+                opacity: 0;
+            }
+        }
+        
+        @keyframes confettiAnimation {
+            0% {
+                transform: translateY(-100vh) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+        
+        @keyframes sparkleAnimation {
             0% {
                 transform: scale(0);
                 opacity: 1;
@@ -286,6 +345,9 @@
             let currentStep = 0;
             let giftsOpened = 0;
             let fireworkInterval;
+            let crackerInterval;
+            let confettiInterval;
+            let sparkleInterval;
             let celebrationTimeout;
             let finalTimeout;
             let currentSong = song2; // Start with the second song
@@ -301,6 +363,9 @@
             function resetWebpage() {
                 // Stop all animations and intervals
                 clearInterval(fireworkInterval);
+                clearInterval(crackerInterval);
+                clearInterval(confettiInterval);
+                clearInterval(sparkleInterval);
                 clearTimeout(celebrationTimeout);
                 clearTimeout(finalTimeout);
                 
@@ -376,26 +441,128 @@
                 }, 1500);
             }
             
-            // Function to start fireworks
-            function startFireworks() {
-                // Create initial burst of fireworks
-                for (let i = 0; i < 10; i++) {
-                    setTimeout(() => createFirework(), i * 100);
-                }
+            // Function to create a cracker
+            function createCracker() {
+                const cracker = document.createElement('div');
+                cracker.className = 'cracker';
                 
-                // Continue creating fireworks at intervals
-                fireworkInterval = setInterval(() => {
-                    createFirework();
-                }, 300);
+                // Random position
+                const x = Math.random() * 100;
+                const y = Math.random() * 100;
+                
+                // Random direction
+                const angle = Math.random() * Math.PI * 2;
+                const distance = Math.random() * 100 + 50;
+                const tx = Math.cos(angle) * distance;
+                const ty = Math.sin(angle) * distance;
+                
+                // Random color
+                const colors = ['#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#FF00FF', '#00FFFF', '#FFA500', '#FFC0CB'];
+                const randomColor = colors[Math.floor(Math.random() * colors.length)];
+                
+                cracker.style.left = `${x}%`;
+                cracker.style.top = `${y}%`;
+                cracker.style.backgroundColor = randomColor;
+                cracker.style.setProperty('--tx', `${tx}px`);
+                cracker.style.setProperty('--ty', `${ty}px`);
+                
+                fireworks.appendChild(cracker);
+                
+                // Remove cracker after animation completes
+                setTimeout(() => {
+                    cracker.remove();
+                }, 1000);
             }
             
-            // Function to stop fireworks
-            function stopFireworks() {
+            // Function to create confetti
+            function createConfetti() {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                
+                // Random position
+                const x = Math.random() * 100;
+                
+                // Random color
+                const colors = ['#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#FF00FF', '#00FFFF', '#FFA500', '#FFC0CB'];
+                const randomColor = colors[Math.floor(Math.random() * colors.length)];
+                
+                confetti.style.left = `${x}%`;
+                confetti.style.backgroundColor = randomColor;
+                
+                fireworks.appendChild(confetti);
+                
+                // Remove confetti after animation completes
+                setTimeout(() => {
+                    confetti.remove();
+                }, 3000);
+            }
+            
+            // Function to create a sparkle
+            function createSparkle() {
+                const sparkle = document.createElement('div');
+                sparkle.className = 'sparkle';
+                
+                // Random position
+                const x = Math.random() * 100;
+                const y = Math.random() * 100;
+                
+                // Random color
+                const colors = ['#FFFFFF', '#FFFF00', '#FFC0CB', '#00FFFF'];
+                const randomColor = colors[Math.floor(Math.random() * colors.length)];
+                
+                sparkle.style.left = `${x}%`;
+                sparkle.style.top = `${y}%`;
+                sparkle.style.backgroundColor = randomColor;
+                sparkle.style.boxShadow = `0 0 10px ${randomColor}`;
+                
+                fireworks.appendChild(sparkle);
+                
+                // Remove sparkle after animation completes
+                setTimeout(() => {
+                    sparkle.remove();
+                }, 1500);
+            }
+            
+            // Function to start all celebration animations
+            function startCelebration() {
+                // Create initial burst of fireworks
+                for (let i = 0; i < 15; i++) {
+                    setTimeout(() => createFirework(), i * 50);
+                }
+                
+                // Create initial burst of crackers
+                for (let i = 0; i < 20; i++) {
+                    setTimeout(() => createCracker(), i * 30);
+                }
+                
+                // Create initial burst of confetti
+                for (let i = 0; i < 30; i++) {
+                    setTimeout(() => createConfetti(), i * 20);
+                }
+                
+                // Create initial burst of sparkles
+                for (let i = 0; i < 25; i++) {
+                    setTimeout(() => createSparkle(), i * 40);
+                }
+                
+                // Continue creating animations at intervals
+                fireworkInterval = setInterval(() => createFirework(), 200);
+                crackerInterval = setInterval(() => createCracker(), 150);
+                confettiInterval = setInterval(() => createConfetti(), 100);
+                sparkleInterval = setInterval(() => createSparkle(), 180);
+            }
+            
+            // Function to stop all celebration animations
+            function stopCelebration() {
                 clearInterval(fireworkInterval);
-                // Clear any remaining fireworks
+                clearInterval(crackerInterval);
+                clearInterval(confettiInterval);
+                clearInterval(sparkleInterval);
+                
+                // Clear any remaining animations
                 setTimeout(() => {
                     fireworks.innerHTML = '';
-                }, 2000);
+                }, 3000);
             }
             
             // Music control button functionality
@@ -445,13 +612,13 @@
                         monkey.src = "happy birthday monkey.gif";
                         message.textContent = "Happy Birthday Anand";
                         
-                        // Start fireworks
-                        startFireworks();
+                        // Start celebration animations
+                        startCelebration();
                         currentStep = 2;
                         
-                        // Set timeout for 10 seconds of celebration
+                        // Set timeout for 7 seconds of celebration
                         celebrationTimeout = setTimeout(function() {
-                            stopFireworks();
+                            stopCelebration();
                             fireworks.style.display = 'none';
                             monkey.src = "open the gifts monkey.gif";
                             message.textContent = "open the gifts one by one";
@@ -461,7 +628,7 @@
                                 giftsContainer.style.display = 'flex';
                                 currentStep = 3;
                             }, 500);
-                        }, 10000); // 10 seconds
+                        }, 7000); // 7 seconds
                     }, 1500);
                 }
             });
@@ -480,8 +647,8 @@
                         } else if (giftNumber === '3') {
                             popup.innerHTML = '<video controls autoplay><source src="clideo_editor_9ec816ebdeae407fab2813a60c3f1251.mp4" type="video/mp4"></video>';
                             
-                            // Lower volume by 30% when third gift opens
-                            song1.volume = 0.7;
+                            // Lower volume to 30% when third gift opens
+                            song1.volume = 0.3;
                         }
                         
                         popup.style.display = 'block';
