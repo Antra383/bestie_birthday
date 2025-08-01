@@ -150,6 +150,39 @@
             object-fit: contain;
         }
         
+        /* Music Control Button */
+        .music-control {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background-color: #FF69B4;
+            border-radius: 50%;
+            border: 3px solid white;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+            cursor: pointer;
+            z-index: 200;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+        
+        .music-control:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.4);
+        }
+        
+        .music-control:active {
+            transform: scale(0.95);
+        }
+        
+        .music-icon {
+            color: white;
+            font-size: 24px;
+        }
+        
         @keyframes fireworkAnimation {
             0% {
                 transform: scale(0);
@@ -202,6 +235,7 @@
             animation: fadeOut 1.5s forwards;
         }
     </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
     <div class="container">
@@ -218,13 +252,18 @@
         </div>
         
         <div class="popup" id="popup"></div>
+        
+        <!-- Music Control Button -->
+        <div class="music-control" id="musicControl">
+            <i class="fas fa-pause music-icon" id="musicIcon"></i>
+        </div>
     </div>
     
     <audio id="song1" loop>
         <source src="happy-birthday-song-birthday-party-birthday-dj-songs-dj-remix-songs-dj-vr7-king_dFwrwEY7.mp3" type="audio/mpeg">
     </audio>
     
-    <audio id="song2">
+    <audio id="song2" loop>
         <source src="OIIAOIIA CAT Happy Birthday to You Spinning Cat Uia Meme (mp3cut.net).mp3" type="audio/mpeg">
     </audio>
 
@@ -241,12 +280,22 @@
             const song1 = document.getElementById('song1');
             const song2 = document.getElementById('song2');
             const gifts = document.querySelectorAll('.gift');
+            const musicControl = document.getElementById('musicControl');
+            const musicIcon = document.getElementById('musicIcon');
             
             let currentStep = 0;
             let giftsOpened = 0;
             let fireworkInterval;
             let celebrationTimeout;
             let finalTimeout;
+            let currentSong = song2; // Start with the second song
+            let isPlaying = true;
+            
+            // Set initial volume for second song (background music)
+            song2.volume = 0.3;
+            
+            // Play the second song when page loads
+            song2.play().catch(e => console.log("Autoplay prevented:", e));
             
             // Function to reset the webpage to initial state
             function resetWebpage() {
@@ -279,6 +328,15 @@
                 // Remove any animation classes
                 cake.classList.remove('cake-grow');
                 popup.classList.remove('popup-pop');
+                
+                // Reset current song to second song
+                currentSong = song2;
+                song2.volume = 0.3;
+                song2.play().catch(e => console.log("Autoplay prevented:", e));
+                
+                // Update music icon
+                musicIcon.className = 'fas fa-pause music-icon';
+                isPlaying = true;
             }
             
             // Function to create a firework
@@ -340,11 +398,25 @@
                 }, 2000);
             }
             
+            // Music control button functionality
+            musicControl.addEventListener('click', function() {
+                if (isPlaying) {
+                    currentSong.pause();
+                    musicIcon.className = 'fas fa-play music-icon';
+                } else {
+                    currentSong.play().catch(e => console.log("Play prevented:", e));
+                    musicIcon.className = 'fas fa-pause music-icon';
+                }
+                isPlaying = !isPlaying;
+            });
+            
             // Step 1: Initial state - tap to start
             message.addEventListener('click', function() {
                 if (currentStep === 0) {
-                    // Start music
+                    // Stop second song and start first song
+                    song2.pause();
                     song1.play();
+                    currentSong = song1;
                     
                     // Change message and monkey
                     message.textContent = "oh its your birthday";
@@ -375,10 +447,6 @@
                         
                         // Start fireworks
                         startFireworks();
-                        
-                        // Change music
-                        song1.pause();
-                        song2.play();
                         currentStep = 2;
                         
                         // Set timeout for 10 seconds of celebration
@@ -387,8 +455,6 @@
                             fireworks.style.display = 'none';
                             monkey.src = "open the gifts monkey.gif";
                             message.textContent = "open the gifts one by one";
-                            song2.pause();
-                            song1.play();
                             
                             // Show gifts after a short delay
                             setTimeout(function() {
@@ -413,6 +479,9 @@
                             popup.innerHTML = '<img src="iphone.jpeg" alt="iPhone">';
                         } else if (giftNumber === '3') {
                             popup.innerHTML = '<video controls autoplay><source src="clideo_editor_9ec816ebdeae407fab2813a60c3f1251.mp4" type="video/mp4"></video>';
+                            
+                            // Lower volume by 30% when third gift opens
+                            song1.volume = 0.7;
                         }
                         
                         popup.style.display = 'block';
@@ -437,10 +506,10 @@
                                     message.textContent = "thank you see you next year";
                                     message.classList.add('pulse');
                                     
-                                    // After 1.5 seconds, reset the webpage
+                                    // After 2 seconds, reset the webpage
                                     finalTimeout = setTimeout(function() {
                                         resetWebpage();
-                                    }, 1500);
+                                    }, 2000);
                                 }, 500); // Wait for fade out animation
                             }
                         }, 3000);
