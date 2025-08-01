@@ -535,9 +535,11 @@
                         if (giftNumber === '1') {
                             popup.innerHTML = '<img src="pizza.jpeg" alt="Pizza">';
                         } else if (giftNumber === '2') {
-                            popup.innerHTML = '<img src="iphone.jpeg" alt="iPhone">';
-                        } else if (giftNumber === '3') {
+                            // Switched: Second gift now shows the video
                             popup.innerHTML = '<video controls autoplay><source src="clideo_editor_9ec816ebdeae407fab2813a60c3f1251.mp4" type="video/mp4"></video>';
+                        } else if (giftNumber === '3') {
+                            // Switched: Third gift now shows the iPhone
+                            popup.innerHTML = '<img src="iphone.jpeg" alt="iPhone">';
                         }
                         
                         popup.style.display = 'block';
@@ -546,14 +548,14 @@
                         
                         giftsOpened++;
                         
-                        // For the third gift, make it vanish instantly after opening
+                        // For the third gift, keep it for 0.5 seconds before moving to next stage
                         if (giftNumber === '3') {
-                            // Close popup immediately
+                            // Close popup after 0.5 seconds
                             setTimeout(function() {
                                 popup.style.display = 'none';
                                 popup.classList.remove('popup-pop');
                                 
-                                // Make gifts vanish instantly
+                                // Make gifts vanish
                                 giftsContainer.classList.add('fade-out');
                                 
                                 // After the fade-out animation completes, change monkey and message
@@ -567,7 +569,7 @@
                                         window.location.reload();
                                     }, 2300); // 2.3 seconds
                                 }, 1500); // Wait for fade-out animation to complete
-                            }, 100); // Very short delay for the third gift
+                            }, 500); // Keep third gift open for 0.5 seconds
                         } else {
                             // For first and second gifts, wait 3 seconds before closing popup
                             setTimeout(function() {
