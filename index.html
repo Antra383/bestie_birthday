@@ -318,7 +318,7 @@
         </div>
     </div>
     
-    <!-- Only one audio element now -->
+    <!-- Only the second song now -->
     <audio id="song" loop>
         <source src="OIIAOIIA CAT Happy Birthday to You Spinning Cat Uia Meme (mp3cut.net).mp3" type="audio/mpeg">
     </audio>
@@ -349,8 +349,8 @@
             let isPlaying = true;
             let musicPausedForGift = false;
             
-            // Set initial volume for the song
-            song.volume = 0.3;
+            // Set initial volume for the song to 70%
+            song.volume = 0.7;
             
             // Play the song when page loads
             song.play().catch(e => console.log("Autoplay prevented:", e));
@@ -368,7 +368,7 @@
                 // Reset music
                 song.pause();
                 song.currentTime = 0;
-                song.volume = 0.3;
+                song.volume = 0.7; // Reset volume to 70%
                 
                 // Reset variables
                 currentStep = 0;
