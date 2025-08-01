@@ -62,16 +62,11 @@ body, html {
   right: 15%;
 }
 
-#messageCloud .tail {
-  position: absolute;
-  bottom: -15px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 0;
-  height: 0;
-  border-width: 15px 15px 0 15px;
-  border-style: solid;
-  border-color: white transparent transparent transparent;
+#messageCloud::after {
+  /* tail triangle below */
+}
+#messageCloud::after {
+  /* keep bump on right; add tail via extra pseudo if needed */
 }
 
 #monkeyGif {
